@@ -429,7 +429,7 @@ public:
          *     CTxOut(nValue=50.00000000, scriptPubKey=0xA9037BAC7050C479B121CF)
          *   vMerkleTree: e0028e
          */
-        const char* pszTimestamp = "Venus tester";
+        const char* pszTimestamp = "Venus tester 2 round";
         CMutableTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
@@ -442,7 +442,7 @@ public:
         genesis.nVersion = 1;
         genesis.nTime = 1514863570;
         genesis.nBits = 0x1e0ffff0;
-        genesis.nNonce = 4419258;
+        genesis.nNonce = 5060897;
 
 /*const int SCRYPT_SCRATCHPAD_SIZE = 131072 + 63;
 
@@ -480,8 +480,8 @@ public:
 
 */
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x2dc5c97e2333f397cca4cddefd7d4b07dc088d307f0b46a3f0f259b52a9b1bb0"));
-        assert(genesis.hashMerkleRoot == uint256("0x119e86f06800536c149886b6cb0f5a1968633fb7d44ac985ac485ac908ff0221"));
+        assert(hashGenesisBlock == uint256("0x2cef78c1fa90386f0c11bc3c3d4c144a673ad97c8b4f7a1eb296b9faa5be951b"));
+        assert(genesis.hashMerkleRoot == uint256("0xd30f8250e34b7f4569457af8e0bf2508a9e9e5d20298319eaa0a96d2d2bc759b"));
 
         vSeeds.push_back(CDNSSeedData("fuzzbawls.pw", "pivx.seed.fuzzbawls.pw"));     // Primary DNS Seeder from Fuzzbawls
         vSeeds.push_back(CDNSSeedData("fuzzbawls.pw", "pivx.seed2.fuzzbawls.pw"));    // Secondary DNS Seeder from Fuzzbawls
