@@ -444,7 +444,7 @@ public:
         genesis.nBits = 0x1e0ffff0;
         genesis.nNonce = 4419258;
 
-const int SCRYPT_SCRATCHPAD_SIZE = 131072 + 63;
+/*const int SCRYPT_SCRATCHPAD_SIZE = 131072 + 63;
 
           if (true && genesis.GetHash() != hashGenesisBlock)
         //if(false)
@@ -478,7 +478,7 @@ const int SCRYPT_SCRATCHPAD_SIZE = 131072 + 63;
             printf("genesis.hashMerkleRoot = %s \n", genesis.hashMerkleRoot.ToString().c_str());
             }
 
-
+*/
         hashGenesisBlock = genesis.GetHash();
         assert(hashGenesisBlock == uint256("0x2dc5c97e2333f397cca4cddefd7d4b07dc088d307f0b46a3f0f259b52a9b1bb0"));
         assert(genesis.hashMerkleRoot == uint256("0x119e86f06800536c149886b6cb0f5a1968633fb7d44ac985ac485ac908ff0221"));
