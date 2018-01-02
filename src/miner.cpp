@@ -107,6 +107,13 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
     if (Params().MineBlocksOnDemand())
         pblock->nVersion = GetArg("-blockversion", pblock->nVersion);
 
+    // Make sure to create the correct block version after zerocoin is enabled
+    bool fZerocoinActive = GetAdjustedTime() >= Params().Zerocoin_StartTime();
+/*    if (fZerocoinActive)
+        pblock->nVersion = 4;
+    else
+        pblock->nVersion = 3;
+*/
     // Create coinbase tx
     CMutableTransaction txNew;
     txNew.vin.resize(1);
@@ -184,12 +191,12 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
         for (map<uint256, CTxMemPoolEntry>::iterator mi = mempool.mapTx.begin();
              mi != mempool.mapTx.end(); ++mi) {
             const CTransaction& tx = mi->second.GetTx();
-            if (tx.IsCoinBase() || tx.IsCoinStake() || !IsFinalTx(tx, nHeight))
+            if (tx.IsCoinBase() || tx.IsCoinStake() || !IsFinalTx(tx, nHeight)){
                 continue;
-//            }
-  //          if(GetAdjustedTime() > GetSporkValue(SPORK_16_ZEROCOIN_MAINTENANCE_MODE) && tx.ContainsZerocoins()){
-    //            continue;
-      //      }
+            }
+            if(GetAdjustedTime() > GetSporkValue(SPORK_16_ZEROCOIN_MAINTENANCE_MODE) && tx.ContainsZerocoins()){
+                continue;
+            }
 
             COrphan* porphan = NULL;
             double dPriority = 0;
@@ -234,7 +241,6 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
                     fMissingInputs = true;
                     break;
                 }
-				}
 
                 const CCoins* coins = view.AccessCoins(txin.prevout.hash);
                 assert(coins);
@@ -415,20 +421,22 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
             UpdateTime(pblock, pindexPrev);
         pblock->nBits = GetNextWorkRequired(pindexPrev, pblock);
         pblock->nNonce = 0;
-//        uint256 nCheckpoint = 0;
-  //      if(fZerocoinActive && !CalculateAccumulatorCheckpoint(nHeight, nCheckpoint)){
-    //        LogPrintf("%s: failed to get accumulator checkpoint\n", __func__);
-      //  }
-        //pblock->nAccumulatorCheckpoint = nCheckpoint;
+/*        uint256 nCheckpoint = 0;
+        if(fZerocoinActive && !CalculateAccumulatorCheckpoint(nHeight, nCheckpoint)){
+            LogPrintf("%s: failed to get accumulator checkpoint\n", __func__);
+        }
+        pblock->nAccumulatorCheckpoint = nCheckpoint;
+ */
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
 
         CValidationState state;
-        //if (!TestBlockValidity(state, *pblock, pindexPrev, false, false)) {
-          //  LogPrintf("CreateNewBlock() : TestBlockValidity failed\n");
-            //mempool.clear();
-            //return NULL;
-        //}
-    }
+  /*      if (!TestBlockValidity(state, *pblock, pindexPrev, false, false)) {
+            LogPrintf("CreateNewBlock() : TestBlockValidity failed\n");
+            mempool.clear();
+            return NULL;
+        }
+    */
+	}
 
     return pblocktemplate.release();
 }
@@ -495,9 +503,9 @@ bool ProcessBlockFound(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     if (!ProcessNewBlock(state, NULL, pblock))
         return error("PIVXMiner : ProcessNewBlock, block not accepted");
 
- //   for (CNode* node : vNodes) {
-   //     node->PushInventory(CInv(MSG_BLOCK, pblock->GetHash()));
-    //}
+    for (CNode* node : vNodes) {
+        node->PushInventory(CInv(MSG_BLOCK, pblock->GetHash()));
+    }
 
     return true;
 }
@@ -533,11 +541,7 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
                 continue;
             }
 
-            while (chainActive.Tip()->nTime < 1471482000 || vNodes.empty() || pwallet->IsLocked() || !fMintableCoins || nReserveBalance >= pwallet->GetBalance() 
-
-///////|| !masternodeSync.IsSynced()
-
-) {
+            while (chainActive.Tip()->nTime < 1471482000 || vNodes.empty() || pwallet->IsLocked() || !fMintableCoins || nReserveBalance >= pwallet->GetBalance() || !masternodeSync.IsSynced()) {
                 nLastCoinStakeSearchInterval = 0;
                 MilliSleep(5000);
                 if (!fGenerateBitcoins && !fProofOfStake)
