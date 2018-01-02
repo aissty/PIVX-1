@@ -446,8 +446,8 @@ public:
 
 const int SCRYPT_SCRATCHPAD_SIZE = 131072 + 63;
 
-          //if (true && genesis.GetHash() != hashGenesisBlock)
-        if(false)
+          if (true && genesis.GetHash() != hashGenesisBlock)
+        //if(false)
         {
             printf("Searching for genesis block...\n");
             // This will figure out a valid hash and Nonce if you're
