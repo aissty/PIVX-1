@@ -501,9 +501,9 @@ bool ProcessBlockFound(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     if (!ProcessNewBlock(state, NULL, pblock))
         return error("PIVXMiner : ProcessNewBlock, block not accepted");
 
-    for (CNode* node : vNodes) {
-        node->PushInventory(CInv(MSG_BLOCK, pblock->GetHash()));
-    }
+ //   for (CNode* node : vNodes) {
+   //     node->PushInventory(CInv(MSG_BLOCK, pblock->GetHash()));
+    //}
 
     return true;
 }
