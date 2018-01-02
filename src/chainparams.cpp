@@ -475,7 +475,7 @@ const int SCRYPT_SCRATCHPAD_SIZE = 131072 + 63;
             printf("block.nTime = %u \n", genesis.nTime);
             printf("block.nNonce = %u \n", genesis.nNonce);
             printf("block.GetHash = %s\n", genesis.GetHash().ToString().c_str());
-
+            printf("genesis.hashMerkleRoot = %s \n", genesis.hashMerkleRoot.ToString().c_str());
             }
 
 
