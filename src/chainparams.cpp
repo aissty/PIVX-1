@@ -442,7 +442,7 @@ public:
         genesis.nVersion = 1;
         genesis.nTime = 1514863570;
         genesis.nBits = 0x1e0ffff0;
-        genesis.nNonce = 2402015;
+        genesis.nNonce = 4419258;
 
 const int SCRYPT_SCRATCHPAD_SIZE = 131072 + 63;
 
@@ -480,8 +480,8 @@ const int SCRYPT_SCRATCHPAD_SIZE = 131072 + 63;
 
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x0000041e482b9b9691d98eefb48473405c0b8ec31b76df3797c74a78680ef818"));
-        assert(genesis.hashMerkleRoot == uint256("0x1b2ef6e2f28be914103a277377ae7729dcd125dfeb8bf97bd5964ba72b6dc39b"));
+        assert(hashGenesisBlock == uint256("0x2dc5c97e2333f397cca4cddefd7d4b07dc088d307f0b46a3f0f259b52a9b1bb0"));
+        assert(genesis.hashMerkleRoot == uint256("0x119e86f06800536c149886b6cb0f5a1968633fb7d44ac985ac485ac908ff0221"));
 
         vSeeds.push_back(CDNSSeedData("fuzzbawls.pw", "pivx.seed.fuzzbawls.pw"));     // Primary DNS Seeder from Fuzzbawls
         vSeeds.push_back(CDNSSeedData("fuzzbawls.pw", "pivx.seed2.fuzzbawls.pw"));    // Secondary DNS Seeder from Fuzzbawls
